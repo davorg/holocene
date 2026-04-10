@@ -101,9 +101,9 @@ footer a:hover {
 </header>
 
 <div class="tabs">
-  <button class="tab-button active" onclick="showTab('date')">Date</button>
-  <button class="tab-button" onclick="showTab('rationale')">Rationale</button>
-  <button class="tab-button" onclick="showTab('timeline')">Timeline</button>
+  <button class="tab-button active" data-tab="date">Date</button>
+  <button class="tab-button" data-tab="rationale">Rationale</button>
+  <button class="tab-button" data-tab="timeline">Timeline</button>
 </div>
 
 <!-- DATE TAB -->
@@ -170,12 +170,29 @@ footer a:hover {
 </footer>
 
 <script>
-  function showTab(tabId) {
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+      showTab(button.dataset.tab);
+    });
+  });
+
+  function showTab(tabId, push = true) {
+    const tab = document.getElementById(tabId);
+    const button = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+
+    if (!tab || !button) {
+      return;
+    }
+
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
 
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
+    tab.classList.add('active');
+    button.classList.add('active');
+
+    if (push) {
+      history.pushState(null, '', '#' + tabId);
+    }
   }
 
   function updateDate() {
@@ -188,7 +205,21 @@ footer a:hover {
     document.getElementById('hc-date').innerText = `${dateStr} ${year} HE`;
   }
 
+  function loadFromHash() {
+    const hash = window.location.hash.replace('#', '');
+    const validTabs = ['date', 'rationale', 'timeline'];
+
+    if (validTabs.includes(hash)) {
+      showTab(hash, false);
+    } else {
+      showTab('date', false);
+    }
+  }
+
+  window.addEventListener('popstate', loadFromHash);
+
   updateDate();
+  loadFromHash();
 </script>
 
 </body>
