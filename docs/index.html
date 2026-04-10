@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Holocene Calendar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f8f9fb;
+      color: #222;
+      text-align: center;
+      padding-bottom: 150px;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #ddd;
+    }
+
+    .tab-button {
+      padding: 1rem 2rem;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 1rem;
+    }
+
+    .tab-button.active {
+      background: white;
+      font-weight: bold;
+    }
+
+    .tab {
+      display: none;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .big-date {
+      font-size: 4rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 0;
+    }
+
+    .timeline li {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+  </style>
+</head>
+
+<body>
+
+<header>
+  Holocene Calendar (Human Era)
+</header>
+
+<div class="tabs">
+  <button class="tab-button active" onclick="showTab('date')">Date</button>
+  <button class="tab-button" onclick="showTab('rationale')">Rationale</button>
+  <button class="tab-button" onclick="showTab('timeline')">Timeline</button>
+</div>
+
+<!-- DATE TAB -->
+<div id="date" class="tab active">
+  <div class="big-date" id="hc-date"></div>
+  <p style="text-align:center;">Current date in the Holocene Calendar</p>
+</div>
+
+<!-- RATIONALE TAB -->
+<div id="rationale" class="tab">
+  <h2>Why the Holocene Calendar?</h2>
+
+  <p>
+    The Holocene Calendar (Human Era) simply adds 10,000 years to the current Gregorian year.
+    This places the start of the calendar at approximately 10,000 BCE — the beginning of
+    large-scale human civilisation.
+  </p>
+
+  <h3>Technical Benefits</h3>
+  <ul>
+    <li>No BCE/CE split — all years are positive</li>
+    <li>No missing year zero</li>
+    <li>Simpler chronological calculations</li>
+  </ul>
+
+  <h3>Psychological Benefits</h3>
+  <ul>
+    <li>Frames history as a continuous human story</li>
+    <li>Removes reliance on a single cultural/religious reference point</li>
+    <li>Emphasises long-term thinking (we are in year 12000+, not 2000+)</li>
+  </ul>
+
+  <p>
+    It’s a minimal change with a surprisingly large shift in perspective.
+  </p>
+</div>
+
+<!-- TIMELINE TAB -->
+<div id="timeline" class="tab">
+  <h2>Timeline of Human History (HE)</h2>
+
+  <ul class="timeline">
+    <li><strong>12026 HE</strong> — Present day (2026 CE)</li>
+    <li><strong>11969 HE</strong> — Moon landing (1969 CE)</li>
+    <li><strong>11945 HE</strong> — End of World War II (1945 CE)</li>
+    <li><strong>11789 HE</strong> — French Revolution (1789 CE)</li>
+    <li><strong>11492 HE</strong> — Columbus reaches the Americas (1492 CE)</li>
+    <li><strong>11066 HE</strong> — Norman Conquest (1066 CE)</li>
+    <li><strong>10501 HE</strong> — Fall of Western Roman Empire (476 CE)</li>
+    <li><strong>10001 HE</strong> — Traditional start of Common Era (1 CE)</li>
+    <li><strong>9699 HE</strong> — Death of Alexander the Great (323 BCE)</li>
+    <li><strong>9556 HE</strong> — Construction of Parthenon begins (447 BCE)</li>
+    <li><strong>7430 HE</strong> — Great Pyramid of Giza (~2570 BCE)</li>
+    <li><strong>6000 HE</strong> — Early Sumerian civilisation (~4000 BCE)</li>
+    <li><strong>1000 HE</strong> — Late Ice Age (~9000 BCE)</li>
+  </ul>
+</div>
+
+<footer>
+  <p>Holocene Calendar = Gregorian Year + 10,000</p>
+  <p>Made by <a href="https://davecross.co.uk/" target="_blank">Dave Cross</a>
+  /
+  Code on <a href="https://github.com/davorg/holocene" target="_blank">GitHub</a></p>
+</footer>
+
+<script>
+  function showTab(tabId) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function updateDate() {
+    const now = new Date();
+    const year = now.getFullYear() + 10000;
+
+    const options = { day: 'numeric', month: 'long' };
+    const dateStr = now.toLocaleDateString('en-GB', options);
+
+    document.getElementById('hc-date').innerText = `${dateStr} ${year} HE`;
+  }
+
+  updateDate();
+</script>
+
+</body>
+</html>
